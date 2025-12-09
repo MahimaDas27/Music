@@ -1,174 +1,90 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>BTS Love Yourself Tracker</title>
-  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahima Das - Kpop & ENHYPEN Inspired</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Custom Enhypen/DAR MOON vibes */
     body {
-      background: linear-gradient(135deg, #fbe8ff 0%, #f6f1ff 30%, #fff8f6 100%);
-      font-family: Inter, sans-serif;
-      color: #2b2140;
-      padding: 20px;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #f5f5f5;
+      font-family: 'Poppins', sans-serif;
     }
-    h1, h2, h3 { margin: 0; }
+    a {
+      transition: all 0.3s ease;
+    }
+    a:hover {
+      color: #fcd34d;
+    }
+    .section-title {
+      font-family: 'Roboto Slab', serif;
+      font-size: 2rem;
+      font-weight: bold;
+      border-left: 4px solid #fcd34d;
+      padding-left: 0.5rem;
+      margin-bottom: 1rem;
+    }
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.72));
-      border-radius: 14px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 30px rgba(99,79,160,0.08);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      backdrop-filter: blur(5px);
+      margin-bottom: 1.5rem;
     }
     .btn {
-      padding: 6px 12px;
-      background: #ffd6f6;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
+      background: #fcd34d;
+      color: #0f0c29;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      display: inline-block;
     }
-    .btn:hover { background: #f5e1ff; }
-    .item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #ddd; }
-    .soft { color: rgba(43,33,64,0.7); font-size: 0.9em; }
-    .title-gradient { 
-      background: linear-gradient(90deg,#ffb3e6,#e8d6ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .btn:hover {
+      background: #eab308;
     }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col items-center justify-start py-10 px-4">
 
-  <h1 class="title-gradient">BTS — Love Yourself Tracker</h1>
-  <p class="soft">Group & solo releases • Birthdays • Debut anniversary</p>
+  <!-- Header -->
+  <header class="text-center mb-10">
+    <h1 class="text-5xl font-bold mb-2">Mahima Das</h1>
+    <p class="text-xl text-gray-300">K-pop Enthusiast | ENHYPEN DAR MOON Vibes | Aspiring Researcher</p>
+  </header>
 
-  <!-- Group Releases -->
-  <div class="card">
-    <h2>Group Releases</h2>
-    <div id="group-releases"></div>
-  </div>
+  <!-- About Me -->
+  <section class="w-full max-w-3xl mb-10">
+    <div class="section-title">About Me</div>
+    <div class="card">
+      <p>Hello! I'm Mahima, a passionate psychology researcher and K-pop enthusiast. I love everything ENHYPEN, especially Sunghoon's DAR MOON aesthetic — moody, sleek, and mysterious. When I’m not diving into research papers or coding, I’m curating playlists, exploring K-pop visuals, and immersing myself in creative projects that combine my love for music, aesthetics, and science.</p>
+    </div>
+  </section>
 
-  <!-- Solo Releases -->
-  <div class="card">
-    <h2>Solo Releases</h2>
-    <div id="solo-releases"></div>
-  </div>
+  <!-- CV Section -->
+  <section class="w-full max-w-3xl mb-10">
+    <div class="section-title">My CV</div>
+    <div class="card flex flex-col items-center">
+      <p class="mb-4">You can download my CV below:</p>
+      <a href="Mahima_Das_CV_.pdf" download class="btn">Download CV</a>
+    </div>
+  </section>
 
-  <!-- Member Birthdays -->
-  <div class="card">
-    <h2>Member Birthdays Today</h2>
-    <div id="birthdays-today"></div>
-  </div>
+  <!-- Spotify Section -->
+  <section class="w-full max-w-3xl mb-10">
+    <div class="section-title">Spotify</div>
+    <div class="card flex flex-col items-center">
+      <p class="mb-4">Check out my music taste and K-pop playlists:</p>
+      <a href="https://open.spotify.com/" target="_blank" class="btn">Visit My Spotify</a>
+    </div>
+  </section>
 
-  <!-- Debut Anniversary -->
-  <div class="card">
-    <h2>Debut Anniversary</h2>
-    <div id="debut-anniversary"></div>
-  </div>
+  <!-- Footer -->
+  <footer class="mt-auto text-gray-400 text-sm text-center">
+    &copy; 2025 Mahima Das | Made with 💛 ENHYPEN DAR MOON aesthetic
+  </footer>
 
-<script>
-  // Mock Data
-  const groupReleases = [
-    { title: "Butter", date: "2025-12-01" },
-    { title: "Permission to Dance", date: "2025-12-05" }
-  ];
-
-  const soloReleases = [
-    { title: "Moon", artist: "RM", date: "2025-12-03" },
-    { title: "Serendipity", artist: "Jimin", date: "2025-12-02" }
-  ];
-
-  const BTS_MEMBERS = [
-    { name: "RM", birthday: "09-12" },
-    { name: "Jin", birthday: "12-04" },
-    { name: "SUGA", birthday: "03-09" },
-    { name: "j-hope", birthday: "02-18" },
-    { name: "Jimin", birthday: "10-13" },
-    { name: "V", birthday: "12-30" },
-    { name: "Jungkook", birthday: "09-01" }
-  ];
-
-  const debutAnniv = { title: "BTS Debut Anniversary", date: "2013-06-13" };
-
-  // Helper: Add .ics calendar
-  function addToCalendar(eventTitle, dateStr, description="") {
-    const dt = dateStr.replaceAll("-", "");
-    const cal = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "BEGIN:VEVENT",
-      `SUMMARY:${eventTitle}`,
-      `DESCRIPTION:${description}`,
-      `DTSTART;VALUE=DATE:${dt}`,
-      "END:VEVENT",
-      "END:VCALENDAR"
-    ].join("\n");
-    const url = 'data:text/calendar;charset=utf8,' + encodeURIComponent(cal);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${eventTitle}.ics`;
-    a.click();
-  }
-
-  // Render Group Releases
-  const groupDiv = document.getElementById("group-releases");
-  groupReleases.forEach(r => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `<span>${r.title} • BTS • ${r.date}</span>`;
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.innerText = "Add to Calendar";
-    btn.onclick = () => addToCalendar(`${r.title} — BTS`, r.date, `BTS group release: ${r.title}`);
-    div.appendChild(btn);
-    groupDiv.appendChild(div);
-  });
-
-  // Render Solo Releases
-  const soloDiv = document.getElementById("solo-releases");
-  soloReleases.forEach(r => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `<span>${r.title} • ${r.artist} • ${r.date}</span>`;
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.innerText = "Add to Calendar";
-    btn.onclick = () => addToCalendar(`${r.title} — ${r.artist}`, r.date, `Solo release: ${r.title} by ${r.artist}`);
-    div.appendChild(btn);
-    soloDiv.appendChild(div);
-  });
-
-  // Render Birthdays
-  const birthdayDiv = document.getElementById("birthdays-today");
-  const today = new Date();
-  const mmdd = String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
-  const birthdaysToday = BTS_MEMBERS.filter(m => m.birthday === mmdd);
-  if (birthdaysToday.length === 0) birthdayDiv.innerHTML = "<span class='soft'>No birthdays today.</span>";
-  birthdaysToday.forEach(m => {
-    const div = document.createElement("div");
-    div.className = "item";
-    div.innerHTML = `<span>${m.name} • BTS • ${m.birthday}</span>`;
-    const btn = document.createElement("button");
-    btn.className = "btn";
-    btn.innerText = "Add to Calendar";
-    btn.onclick = () => addToCalendar(`${m.name} Birthday`, `${today.getFullYear()}-${m.birthday}`, `${m.name} (BTS) birthday`);
-    div.appendChild(btn);
-    birthdayDiv.appendChild(div);
-  });
-
-  // Render Debut Anniversary
-  const debutDiv = document.getElementById("debut-anniversary");
-  const div = document.createElement("div");
-  div.className = "item";
-  div.innerHTML = `<span>${debutAnniv.title} • ${debutAnniv.date}</span>`;
-  const btn = document.createElement("button");
-  btn.className = "btn";
-  btn.innerText = "Add to Calendar";
-  btn.onclick = () => addToCalendar(debutAnniv.title, debutAnniv.date, "Debut of BTS - 13 June 2013");
-  div.appendChild(btn);
-  debutDiv.appendChild(div);
-
-</script>
 </body>
 </html>
-
