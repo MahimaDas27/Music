@@ -1,14 +1,32 @@
 import axios from "axios";
 
+const getAccessToken = async () => {
+  const response = await axios.post(
+    "https://accounts.spotify.com/api/token",
+    new URLSearchParams({
+      grant_type: "refresh_token",
+      refresh_token: process.env.SPOTIFY_REFRESH_TOKEN,
+    }),
+    {
+      headers: {
+        Authorization:
+          "Basic " +
+          Buffer.from(
+            process.env.SPOTIFY_CLIENT_ID +
+              ":" +
+              process.env.SPOTIFY_CLIENT_SECRET
+          ).toString("base64"),
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+    }
+  );
+
+  return response.data.access_token;
+};
+
 export default async function handler(req, res) {
   try {
-    const accessToken = process.env.SPOTIFY_ACCESS_TOKEN;
-
-    if (!accessToken) {
-      return res.status(500).json({
-        error: "Missing SPOTIFY_ACCESS_TOKEN"
-      });
-    }
+    const accessToken = await getAccessToken();
 
     const response = await axios.get(
       "https://api.spotify.com/v1/me/player/currently-playing",
@@ -25,21 +43,14 @@ export default async function handler(req, res) {
 
     const item = response.data.item;
 
-    return res.status(200).json({
+    res.status(200).json({
       isPlaying: response.data.is_playing,
-      song: item.name,
+      title: item.name,
       artist: item.artists.map(a => a.name).join(", "),
-      albumArt: item.album.images[0]?.url,
-      songUrl: item.external_urls.spotify
+      albumArt: item.album.images[0].url,
+      songUrl: item.external_urls.spotify,
     });
-
-  } catch (error) {
-    if (error.response?.status === 401) {
-      return res.status(401).json({
-        error: "Access token expired"
-      });
-    }
-
-    return res.status(500).json({ error: error.message });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 }
