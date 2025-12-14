@@ -1,25 +1,27 @@
 const axios = require('axios');
 
 module.exports = async (req, res) => {
-  // Enable CORS for your site
+  // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
   
   try {
+    // Get token from Vercel environment
     const accessToken = process.env.SPOTIFY_ACCESS_TOKEN;
     
     if (!accessToken) {
-      return res.json({ 
-        error: 'Spotify token not configured. Please add SPOTIFY_ACCESS_TOKEN in Vercel environment variables.' 
+      return res.status(500).json({ 
+        error: 'Server not configured',
+        message: 'SPOTIFY_ACCESS_TOKEN is missing. Add it in Vercel Settings → Environment Variables'
       });
     }
     
+    // Call Spotify API
     const response = await axios.get(
       'https://api.spotify.com/v1/me/player/currently-playing',
       {
@@ -29,15 +31,13 @@ module.exports = async (req, res) => {
       }
     );
     
-    // If nothing is playing
     if (response.status === 204) {
       return res.json({ 
         is_playing: false,
-        message: 'Nothing is currently playing' 
+        message: 'Nothing is currently playing'
       });
     }
     
-    // Format the response
     const data = response.data;
     const track = {
       is_playing: data.is_playing,
@@ -53,16 +53,16 @@ module.exports = async (req, res) => {
     return res.json(track);
     
   } catch (error) {
-    console.error('Spotify API Error:', error.message);
+    console.error('Error:', error.message);
     
-    // Handle token expiration
     if (error.response?.status === 401) {
       return res.status(401).json({ 
-        error: 'Access token expired. Please refresh it in Vercel environment variables.' 
+        error: 'Spotify token expired',
+        message: 'Get a new token and update Vercel environment variables'
       });
     }
     
-    return res.json({ 
+    return res.status(500).json({ 
       error: 'Failed to fetch currently playing track',
       details: error.message 
     });
